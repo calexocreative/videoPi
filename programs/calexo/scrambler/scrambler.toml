@@ -1,0 +1,109 @@
+# Copyright (C) 2026 calexo
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# Scrambler Program Configuration
+
+[program]
+program_id = "com.calexo.scrambler"
+program_name = "Scrambler"
+program_version = "0.1.0"
+abi_version = ">=1.0,<2.0"
+author = "calexo"
+license = "GPL-3.0"
+categories = ["Glitch", "Signal"]
+program_type = "processing"
+description = "Randomizes horizontal scanlines with a bad-TV glitch layer keyed by luma."
+hardware_compatibility = ["rev_b"]
+core = "yuv444_30b"
+
+# Knobs 1-6: "fizz" -- all shape the intensity/chaos of the glitch layer
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_1"
+name_label = "Scramble"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 300
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_2"
+name_label = "Stutter"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 0
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_3"
+name_label = "Snow"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 0
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_4"
+name_label = "Smear"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 0
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_5"
+name_label = "Dropout"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 0
+
+[[parameter]]
+parameter_id = "rotary_potentiometer_6"
+name_label = "Wobble"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 0
+
+# Switches 7-11: "effects" -- each one gates a distinct glitch layer
+
+[[parameter]]
+parameter_id = "toggle_switch_7"
+name_label = "Scramble"
+value_labels = ["Off", "On"]
+initial_value_label = "On"
+
+[[parameter]]
+parameter_id = "toggle_switch_8"
+name_label = "Snow"
+value_labels = ["Off", "On"]
+initial_value_label = "Off"
+
+[[parameter]]
+parameter_id = "toggle_switch_9"
+name_label = "Smear"
+value_labels = ["Off", "On"]
+initial_value_label = "Off"
+
+[[parameter]]
+parameter_id = "toggle_switch_10"
+name_label = "Invert"
+value_labels = ["Off", "On"]
+initial_value_label = "Off"
+
+[[parameter]]
+parameter_id = "toggle_switch_11"
+name_label = "Dropout"
+value_labels = ["Off", "On"]
+initial_value_label = "Off"
+
+# Fader: "luma matte" -- keys the bad-TV bonus layer to the bright side of this threshold
+
+[[parameter]]
+parameter_id = "linear_potentiometer_12"
+name_label = "Luma Matte"
+control_mode = "linear"
+min_value = 0
+max_value = 1023
+initial_value = 512
