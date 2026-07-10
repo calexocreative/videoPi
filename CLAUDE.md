@@ -20,11 +20,13 @@ etc.) that load onto the hardware as `.vmprog` packages.
 >
 > This file was written against the SDK's `main` branch as of **2026-07-07**
 > (commit `5d7ca29`, one commit ahead of tag `0.5.0`). See
-> [Hardware / firmware notes](#hardware--firmware-notes) — the installed
-> device firmware is a **mid-April 2026** build, roughly `0.5.0` vintage, so a
-> few of the newest SDK features below may be ahead of what that firmware
-> understands. Verify anything schema-related by sideloading before relying
-> on it.
+> [Hardware / firmware notes](#hardware--firmware-notes) — the device was
+> updated via LZX Connect on **2026-07-10** to firmware **1.0 (rc.30)**
+> (`videomancer/1.0.0-rc.30` in the `videomancer-firmware` repo), well past
+> the `0.5.0`-vintage build this file was originally checked against. That
+> should resolve the "may be ahead of firmware" caution below for most
+> programs, but it hasn't been independently re-verified against a specific
+> SDK commit — confirm anything schema-related by sideloading.
 
 ## The platform you are targeting (read this first)
 
@@ -353,19 +355,28 @@ Prerequisites: **Python 3.10+**, GHDL ≥3.0 (via OSS CAD Suite, installed by
 
 ## Hardware / firmware notes
 
-- **Firmware baseline:** the device is running a **mid-April 2026** firmware
-  build — roughly the vintage of SDK tag `0.5.0` (released 2026-04-08). This
-  CLAUDE.md was written against SDK `main` at commit `5d7ca29`, one commit
-  past that tag, which already includes **`[Unreleased]`** changes not yet in
-  any tagged release: the `core_id`/`core` field (multi-core support), the
-  `categories` array + required `program_type` field (replacing the older
-  singular `category` string — still seen in some existing community
-  programs), and an expanded parameter control-curve range. **If a program
-  using these newer fields fails to load or behaves oddly, that's the first
-  thing to suspect** — check the installed firmware version in LZX Connect
-  and update it (LZX Connect can flash firmware over USB) before debugging
-  the VHDL itself. When in doubt, pin your SDK checkout to tag `0.5.0` to
-  match firmware exactly rather than building against `main`.
+- **Firmware baseline (current):** updated via LZX Connect on **2026-07-10**
+  to **Videomancer firmware 1.0 (rc.30)** — tag `videomancer/1.0.0-rc.30` in
+  the `videomancer-firmware` repo. This supersedes the mid-April 2026,
+  `0.5.0`-vintage build this file was originally written against.
+- **Firmware and SDK are versioned independently**, and there's no published
+  mapping from a firmware release to a specific SDK commit/ABI feature set —
+  the `videomancer-firmware` repo is just a binary (`.uf2`) archive with no
+  changelog tying releases to SDK state. The SDK's own latest tag is still
+  `0.5.0`; `main` (commit `5d7ca29`, what this file is written against) sits
+  one commit past it with **`[Unreleased]`** changes: the `core_id`/`core`
+  field (multi-core support), the `categories` array + required
+  `program_type` field (replacing the older singular `category` string —
+  still seen in some existing community programs), and an expanded parameter
+  control-curve range.
+- Firmware 1.0 being a major-version jump past the `0.5.0` baseline makes it
+  *likely* those newer TOML fields are now understood, but **this hasn't been
+  independently confirmed** — verify empirically rather than assuming.
+  Concretely: sideload a `.vmprog` built with `categories`/`program_type`/
+  `core` set (e.g. `programs/calexo/scrambler/`) via LZX Connect and confirm
+  it loads without a `timing_not_supported` or config-parsing error. **If a
+  program using these newer fields fails to load or behaves oddly, that's
+  still the first thing to suspect.**
 - Keep a note of which SDK commit/tag corresponds to the installed firmware
   when things work, so builds stay reproducible.
 
